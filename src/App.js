@@ -12,9 +12,15 @@ class App extends Component {
 
   textCounter = (event) => {
     this.setState({
-      userInput: event.target.value.length
+      userInput: event.target.value
     })
+  }
 
+  removeCharacter = (index) => {
+    let charArray = this.state.userInput.split('');
+    charArray.splice(index, 1);
+    const updatedText = charArray.join('');
+    this.setState({userInput: updatedText});
   }
 
   render() {
@@ -25,7 +31,7 @@ class App extends Component {
       <div>
       {
         characterArray.map((char, index) => {
-          return <CharComponent char={char} />
+          return <CharComponent char={char} key={index} clicked={() => this.removeCharacter(index)}/>
         })
       }
       </div>
@@ -45,7 +51,7 @@ class App extends Component {
         <p>Hint: Keep in mind that JavaScript strings are basically arrays!</p>
         <input type="text" onChange={(event) => this.textCounter(event)} />
         <p>{this.state.userInput}</p>
-        <ValidationComponent length={this.state.userInput}/>
+        <ValidationComponent length={this.state.userInput.length}/>
         {characterBox}
       </div>
     );
